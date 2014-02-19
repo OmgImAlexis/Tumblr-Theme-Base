@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <!-- Page title with post summary on Permalink page -->
+        <title>{Title}{block:PostSummary} &mdash; {PostSummary}{/block:PostSummary}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Blog meta description -->
+        {block:Description}
+        <meta name="description" content="{MetaDescription}" />
+        {/block:Description}
+
+        <!-- You can insert the meta option for Appearance settings in Customize page. -->
+        <!-- Refer to http://www.tumblr.com/docs/custom_themes for more details -->
+        <!-- meta option example-->
+        <meta name="color:Background Color" content="#ffffff">
+        <!-- The google analytics code option. -->
+        <meta name="if:Google Analytics Code" content="">
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="{Favicon}">
+        <!-- RSS. -->
+        <link rel="alternate" type="application/rss+xml" href="{RSS}">
+
+        <!-- Link your stylesheet here. -->
+        <link rel="stylesheet" type="text/css" href="http://base.css">
+
+        <!-- Internal Style, this area necessary for Custom CSS. If you don't need custom CSS or you don't need styling manipulation, you can remove this section -->
+        <style>
+            {CustomCSS}
+        </style>
+
+        <!-- Put your script here, after all the stylesheet. Only put script that is needed to be run immediately in here, such as modernizr. For other script its better to place it at the bottom of the page, right before the body tag. -->
+        <script src="mysoimportantscript.js" type="text/javascript"></script>
+    </head>
+
+    <!-- The body where every cosmetic stuff will be -->
+    <body>
+        <!-- Wrapper of the page, can be anything and is not necessary. -->
+        <div id="wrapper">
+            <!-- Container. can be anything and is not necessary. -->
+            <div class="container">
+
+                <!-- Header. For logos, navigation. can be anything and is not necessary. -->
+                <header>
+                    <h1>
+                        <!-- {Title} block is the blog name -->
+                        <a href="/">{Title}</a>
+                    </h1>
+                    <nav>
+                        <ul>
+                            <!-- HasPages block will only render when there are pages created by the user. -->
+                            {block:HasPages}
+                            <!-- Render on each pages. -->
+                            {block:Pages}
+                            <li>
+                                <a href="{URL}" title="{Label}">{Label}</a></li>
+                            {/block:Pages}
+                            {/block:HasPages}
+
+                            <!-- Random post link. The URL /random is reserve for random post. Not necessary. -->
+                            <li>
+                                <a href="/random" title="{lang:Random post}">{lang:Random post}</a>
+                            </li>
+
+                            <!-- Archieve link. URL /archieve reserved for your blog's archieve. not necessary. -->
+                            <li>
+                                <a href="/archive" title="{lang:Browse the archive}">{lang:Archive}</a>
+                            </li>
+
+                            <!-- Ask enable block. This will render the Ask link, only when the ask option enable in the setting -->
+                            {block:AskEnabled}
+                            <li>
+                                <a href="/ask" title="{AskLabel}">{AskLabel}</a>
+                            </li>
+                            {/block:AskEnabled}
+
+                            <!-- Submission block. This will only render the Submit link only when the Submission option enable on the setting -->
+                            {block:SubmissionsEnabled}
+                            <li>
+                                <a href="/submit" title="{SubmitLabel}">{SubmitLabel}</a>
+                            </li>
+                            {/block:SubmissionsEnabled}
+
+                            <!-- Search form. Not necessary. -->
+                            <li>
+                                <form action="/search" method="get">
+                                    <input type="text" class="search-bar" placeholder="{lang:Search keywords}" name="q"/>
+                                </form>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <!-- Blog description blog. will only render if there's anything inside the blog description -->
+                    {block:Description}
+                        <div class="description">
+                            <h3>{lang:About}</h3>
+                            {Description}
+                        </div>
+                    {/block:Description}
+
+                </header>
+                <!-- End of header -->
+                
+                <!-- The area where the posts will be render. The classname and structuring are not necessary but the Tumblr's block inside are necessary to make sure the post render as it should. -->
+                <div class="posts">
+                    <div class="container">
+
+                        <!-- Will only render on search page. Not necessary. Can be place anywhere in the body tag. The used of localization is for example purposes. The styling and structure are not restricted.-->
+                        {block:SearchPage}
+                        <section class="search-page">
+                            {block:NoSearchResults}
+                            {lang:No search results for SearchQuery 2}
+                            {/block:NoSearchResults}
+
+                            <p>{lang:Showing SearchResultCount results for SearchQuery 2}</p>
+                        </section>
+                        {/block:SearchPage}
+
+                        <!-- Will only render on tag page. Not necessary and Can be place anywhere in the body tag. The used of localization is for example purposes. The styling and structure are not restricted. -->
+                        {block:TagPage}
+                        <section class="tag-page">
+                            <h3>{lang:Posts tagged Tag 2}</h3>
+                        </section>
+                        {/block:TagPage}
+
+                        <!-- Post block. Necessary to render post. The block represent "Each" post, so make sure place it right before the tag that you want to be inside the post. -->
+                        {block:Posts}
+                        <article class="post {PostType} {TagsAsClasses}">
+
+                            <!-- The text post block. Will render for each text post. -->
+                            {block:Text}
+
+                                <!-- Post title block. Only render when the post have a title. -->
+                                {block:Title}
+                                    <h3>
+                                        <a href="{Permalink}" title="{PostTitle}">{Title}</a>
+                                    </h3>
+                                {/block:Title}
+
+                                <!-- Where the post will render -->
+                                <div class="entry">
+                                    {Body}
+                                </div>
+
+                            {/block:Text}
+
+                            <!-- Quote post block. Will render on each Quote post. -->
+                            {block:Quote}
+                                <div class="body">
+                                    <blockquote>
+                                        "{Quote}"
+                                    </blockquote>
+                                    {block:Source}
+                                    <small>&mdash; {Source}</small>
+                                    {/block:Source}
+                                </div>
+                            {/block:Quote}
+
+                            <!-- Photo post block. Will render on each photo post. -->
+                            {block:Photo}
+
+                            <div class="media">
+                                <!-- {LinkOpenTag} and {LinkCloseTag}Will render an anchor link that wrap the photo -->
+                                <!-- PhotoURL is the URL of the photo.  -->
+                                {LinkOpenTag}
+                                <img src="{PhotoURL-500}" alt="{PhotoAlt}">
+                                {LinkCloseTag}
+                            </div>
+
+                            <!-- Photo caption block. Only render if there's caption on the post -->
+                            {block:Caption}
+                                <div class="body">
+                                {Caption}
+                                </div>
+                            {/block:Caption}
+
+                            {/block:Photo}
+
+                            <!-- Photoset post block. Will render on each photoset post-->
+                            {block:Photoset}
+
+                                <!-- The photoset block will render the 500px width tumblr photoset -->
+                                <div class="media">
+                                    {Photoset-500}
+                                </div>
+
+                                <!-- Photo caption block. Only render if there's caption on the post -->
+                                {block:Caption}
+                                <div class="body">
+                                    {Caption}
+                                </div>
+                                {/block:Caption}
+
+                            {/block:Photoset}
+
+                            <!-- Chat post block. Will render on each chat post. -->
+                            {block:Chat}
+
+                                <!-- Post title block. Only render when the post have a title. -->
+                                {block:Title}
+                                    <h3>
+                                        <a href="{Permalink}" title="{Title}">{Title}</a>
+                                    </h3>
+                                {/block:Title}
+
+                                <!-- The chat body. {Lines} will render for each line of chat. -->
+                                <div class="body">
+                                    <ul class="chats clearfix">
+                                        {block:Lines}
+                                        <li class="{Alt} {UserNUmber} clearfix">
+                                            {block:Label}
+                                            <span class="chat-name">{Label}</span>
+                                            {/block:Label}
+                                            <div class="chat-line">
+                                                {Line}
+                                            </div>
+                                        </li>
+                                        {/block:Lines}
+                                    </ul>
+                                </div>
+
+                            {/block:Chat}
+
+                            <!-- Link post block. Will render on each linkt post. -->
+                            {block:Link}
+                            <!-- {Name} block will use the post title if inserted, else will use the URL. -->
+                            <a href="{URL}" title="{Name}" {Target}>{Name}</a>
+
+                            <!-- The link description, if available -->
+                            {block:Description}
+                                <div class="body">
+                                    {Description}
+                                </div>
+                            {/block:Description}
+
+                            {/block:Link}
+
+                            <!-- Answer post block. Will render on each answer post. -->
+                            {block:Answer}
+
+                                <!-- The question and the asker. -->
+                                {Question}
+                                <small class="asking">{Asker}</small>
+
+                                <!-- The Answer block. -->
+                                <div class="body">
+                                    {Answer}
+                                </div>
+                            {/block:Answer}
+
+                            <!-- Audio post block. WIll render on each Audio post. -->
+                            {block:Audio}
+                                <!-- Embed audio block. This will render only for embed audio player such Spotify. -->
+                                {block:AudioEmbed}
+                                <div>
+                                    {AudioEmbed-500}
+                                </div>
+                                {/block:AudioEmbed}
+
+                                <!-- Default audio player block. This will render for the default audio post. -->
+                                {block:AudioPlayer}
+                                <div class="media">
+                                    <!-- The black audio player. -->
+                                    <div class="audio-player">
+                                        {AudioPlayerBlack}
+                                    </div>
+                                    <!-- Album art block. Only render if album art is available. Not necessary -->
+                                    {block:AlbumArt}
+                                    <div class="album-art">
+                                        <img src="{AlbumArtURL}" alt="Album Art">
+                                    </div>
+                                    {/block:AlbumArt}
+
+                                    <div class="audio-info">
+
+                                        <!-- The track artist. Only render if available. Not necessary -->
+                                        {block:Artist}
+                                            <span class="artist">{Artist}</span>
+                                        {/block:Artist}
+
+                                        <!-- The trackname. Only render if available. Not necessary -->
+                                        {block:TrackName}
+                                            <span class="track">{TrackName}</span>
+                                        {/block:TrackName}
+
+                                        <!-- The track album. Only render if available . Not necessary-->
+                                        {block:Album}
+                                            <span class="album">{Album}</span>
+                                        {/block:Album}
+
+                                        <!-- Audio play count. Not necessary -->
+                                        <span class="play-count">
+                                            {PlayCountWithLabel}
+                                        </span>
+                                    </div>
+                                </div>                                    
+                                {/block:AudioPlayer}
+
+                                <!-- Caption block. Only render if available. Not necessary -->
+                                {block:Caption}
+                                <div class="body">
+                                    {Caption}
+                                </div>
+                                {/block:Caption}
+                            {/block:Audio}
+
+                            <!-- Video block. Render for each video post. -->
+                            {block:Video}
+                                <div class="media">
+                                    <!-- Video player, sized at 500px. -->
+                                    <div class="video-player">
+                                        {Video-500}
+                                    </div>
+                                </div>
+
+                                <!-- Caption block. Only render if available. Not necessary -->
+                                {block:Caption}
+                                <div class="body">
+                                    {Caption}
+                                </div>
+                                {/block:Caption}
+
+                            {/block:Video}
+
+                            </div>
+
+                            <!-- Date block. Will render on each post. not necessary. Its important to note that this one single block can be render on each post, so you don't have to put this block on each post type. -->
+                            {block:Date}
+                            <section class="meta">
+                                <!-- The post date. Render like 12 November, 2012 -->
+                                <a href="{Permalink}" title="{Month} {MonthNumber}, {Year}">{Month} {MonthNumber}, {Year}</a>
+
+                                <!-- Note count block. -->
+                                {block:NoteCount}
+                                <a href="{Permalink}#notes" title="{lang:View notes for this post}">{NoteCountWithLabel}</a>
+                                {/block:NoteCount}
+
+                                <!-- The Permalink page block. Will on render on permalink page. -->
+                                {block:PermalinkPage}
+
+                                <!-- HasTags block. WIll only render if the post have tag.  -->
+                                    {block:HasTags}
+                                    <div class="tags">
+                                        <ul>
+                                            <!-- Will render for each tags. -->
+                                            {block:Tags}
+                                            <li>
+                                                <a href="{TagURL}">#{Tag}</a>
+                                            </li>
+                                            {/block:Tags}
+                                        </ul>
+                                    </div>
+                                    {/block:HasTags}
+                                {/block:PermalinkPage}
+
+                            </section>
+                            {/block:Date}
+
+                        </article>
+                        <!-- End of post body -->
+
+                        <!-- Post notes block. WIll on render on permalink page, and if there're notes for the post. -->
+                        {block:PostNotes}
+                        <section id="notes">
+                            <h3>{lang:Notes}</h3>
+                            {PostNotes}
+                        </section>
+                        {/block:PostNotes}
+
+                        {/block:Posts}
+                        <!-- End of Posts block. -->
+                    </div>
+
+                    <!-- The permalnk pagination block. Only render on the permalink page. -->
+                    {block:PermalinkPagination}
+                    <div class="pagination clearfix">
+                        {block:NextPost} 
+                        <a href="{NextPost}" class="prev" title="{lang:Older posts}">&laquo;{lang:Previous post}</a>
+                        {/block:NextPost}
+                        {block:PreviousPost}
+                        <a href="{PreviousPost}" class="next" title="{lang:Newer posts}">{lang:Next post}&raquo;</a>
+                        {/block:PreviousPost}
+                    </div>
+                    {/block:PermalinkPagination}
+
+                    <!-- Pagination. This is, somehow will only render on index page. -->
+                    {block:Pagination}
+                    <div class="pagination clearfix">
+                        {block:NextPage}
+                        <a href="{NextPage}" class="next" title="{lang:Older entries}">{lang:Older}&raquo;</a>
+                        {/block:NextPage}
+                        {block:PreviousPage}
+                        <a href="{PreviousPage}" class="prev" title="{lang:Newer entries}">&laquo;{lang:Newer}</a>
+                        {/block:PreviousPage}
+                    </div>
+                    {/block:Pagination}
+
+                </div>
+
+                <!-- Footer. For credits, sitemap, etc. Not necessary, not structurely restricted. -->
+                <footer>
+                    <!-- Will render the blog years span -->
+                    <p>{CopyrightYears}</p>
+                </footer>
+            </div>
+        </div>
+
+        <!-- Where you SHOULD link your script. -->
+
+        <!-- The Tumblr script assets. Not necessary but if you trying to use the API, or infinitescroll. -->
+        <script src="https://rawgithub.com/OmgImAlexis/Tumblr-Theme-Base/master/js/InfiniteScroll.js"></script>
+
+        <!-- The latest jQuery script. Not necessary, if not needed. -->
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        
+        <!-- Other script will be here -->
+
+        <!-- The script for Google Analytics. Not necessary. Only render if the Google Analytic code is entered -->
+
+        {block:ifGoogleAnalyticsCode}
+        <script>
+            $(function () {
+                var _gaq = _gaq || [];
+                _gaq.push(['_setAccount', '{text:Google Analytics Code}']);
+                _gaq.push(['_trackPageview']);
+                (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                })();
+            });
+        </script>
+        {/block:ifGoogleAnalyticsCode}
+    </body>
+</html>
